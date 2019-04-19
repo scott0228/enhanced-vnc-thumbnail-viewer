@@ -36,10 +36,28 @@
  *      - Display computer name
  */
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.net.*;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Panel;
+import java.awt.ScrollPane;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.EOFException;
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.NoRouteToHostException;
+import java.net.UnknownHostException;
+
+import javax.swing.JLabel;
 
 public class VncViewer extends java.applet.Applet
   implements java.lang.Runnable, WindowListener {
@@ -72,7 +90,7 @@ public class VncViewer extends java.applet.Applet
   ScrollPane desktopScrollPane;
   GridBagLayout gridbag;
   ButtonPanel buttonPanel;
-  Label connStatusLabel;
+  JLabel connStatusLabel;
   VncCanvas vc;
   OptionsFrame options;
   ClipboardFrame clipboard;
@@ -108,6 +126,7 @@ public class VncViewer extends java.applet.Applet
   // init()
   //
 
+  @Override
   public void init() {
 
     readParameters();
@@ -144,6 +163,7 @@ public class VncViewer extends java.applet.Applet
     rfbThread.start();
   }
 
+  @Override
   public void update(Graphics g) {
   }
 
@@ -151,6 +171,7 @@ public class VncViewer extends java.applet.Applet
   // run() - executed by the rfbThread to deal with the RFB socket.
   //
 
+  @Override
   public void run() {
       
     gridbag = new GridBagLayout();
@@ -412,7 +433,7 @@ public class VncViewer extends java.applet.Applet
     System.out.println(host + " Status: " + msg); // DJC
 
     if (connStatusLabel == null) {
-      connStatusLabel = new Label("Status: " + msg);
+      connStatusLabel = new JLabel("Status: " + msg);
       connStatusLabel.setFont(new Font("Helvetica", Font.PLAIN, 12));
       connStatusLabel.setForeground(Color.decode(ThemeSetting.get("main.viewer.font-color")));
     } else {
@@ -929,7 +950,7 @@ public class VncViewer extends java.applet.Applet
   void showMessage(String msg) {
     vncContainer.removeAll();
 
-    Label errLabel = new Label(msg, Label.CENTER);
+    JLabel errLabel = new JLabel(msg, JLabel.CENTER);
     errLabel.setFont(new Font("Helvetica", Font.PLAIN, 12));
 
     if (offerRelogin) {
@@ -964,6 +985,7 @@ public class VncViewer extends java.applet.Applet
   // after seeing that rfbThread has been set to null.
   //
 
+  @Override
   public void stop() {
     System.out.println("Stopping applet");
     rfbThread = null;
@@ -973,6 +995,7 @@ public class VncViewer extends java.applet.Applet
   // This method is called before the applet is destroyed.
   //
 
+  @Override
   public void destroy() {
     System.out.println("Destroying applet");
 
@@ -999,6 +1022,7 @@ public class VncViewer extends java.applet.Applet
   // Close application properly on window close event.
   //
 
+  @Override
   public void windowClosing(WindowEvent evt) {
     System.out.println("Closing window");
     if (rfb != null)
@@ -1015,10 +1039,16 @@ public class VncViewer extends java.applet.Applet
   // Ignore window events we're not interested in.
   //
 
+  @Override
   public void windowActivated(WindowEvent evt) {}
+  @Override
   public void windowDeactivated (WindowEvent evt) {}
+  @Override
   public void windowOpened(WindowEvent evt) {}
+  @Override
   public void windowClosed(WindowEvent evt) {}
+  @Override
   public void windowIconified(WindowEvent evt) {}
+  @Override
   public void windowDeiconified(WindowEvent evt) {}
 }

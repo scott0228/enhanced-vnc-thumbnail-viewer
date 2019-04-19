@@ -40,9 +40,18 @@
  *      - Display computer name
  */
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+
+import javax.swing.JLabel;
 
 class ButtonPanel extends Panel implements ActionListener {
 
@@ -55,7 +64,7 @@ class ButtonPanel extends Panel implements ActionListener {
   Button refreshButton;
 
   // Added on Enhanced VNC Thumbnail Viewer 1.0 ***
-  Label compnameLabel;
+  JLabel compnameLabel;
   Button removeButton;
 
   //ButtonPanel(VncViewer v) {
@@ -93,7 +102,7 @@ class ButtonPanel extends Panel implements ActionListener {
     removeButton.setEnabled(true);
     //add(removeButton);
     removeButton.addActionListener(this);
-    compnameLabel = new Label("      "+ compname);
+    compnameLabel = new JLabel("      "+ compname);
     compnameLabel.setFont(new Font("Helvetica", Font.BOLD, 14));
     compnameLabel.setForeground(Color.decode(ThemeSetting.get("main.viewer.font-color")));
     add(compnameLabel); 
@@ -142,6 +151,7 @@ class ButtonPanel extends Panel implements ActionListener {
   // Event processing.
   //
 
+  @Override
   public void actionPerformed(ActionEvent evt) {
 
     viewer.moveFocusToDesktop();
