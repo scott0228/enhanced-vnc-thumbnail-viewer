@@ -2,3 +2,9 @@ build
 nbproject
 build.xml
 manifest.mf
+
+.settings
+.project
+.classpath
+target
+*.class
